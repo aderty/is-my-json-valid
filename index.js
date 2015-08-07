@@ -177,6 +177,9 @@ var compile = function(schema, cache, root, reporter, opts) {
       indent++
       validate('if (!(%s)) {', valid)
       error('is the wrong type')
+      //jgo
+      if (filter) validate('delete %s;', name);
+      //fin jgo
       validate('} else {')
     }
 
@@ -201,6 +204,9 @@ var compile = function(schema, cache, root, reporter, opts) {
       if (typeof scope[n] === 'function') validate('if (!%s(%s)) {', n, name)
       else validate('if (!%s.test(%s)) {', n, name)
       error('must be '+node.format+' format')
+      //jgo
+      if (filter) validate('delete %s;', name);
+      //fin jgo
       validate('}')
       if (type !== 'string' && formats[node.format]) validate('}')
     }
@@ -250,6 +256,9 @@ var compile = function(schema, cache, root, reporter, opts) {
 
       validate('if (%s) {', node.enum.map(compare).join(' && ') || 'false')
       error('must be an enum value')
+      //jgo
+      if (filter) validate('delete %s;', name);
+      //fin jgo
       validate('}')
     }
 
@@ -379,6 +388,9 @@ var compile = function(schema, cache, root, reporter, opts) {
       if (type !== 'string') validate('if (%s) {', types.string(name))
       validate('if (!(%s.test(%s))) {', p, name)
       error('pattern mismatch')
+      //jgo
+      if (filter) validate('delete %s;', name);
+      //fin jgo
       validate('}')
       if (type !== 'string') validate('}')
     }

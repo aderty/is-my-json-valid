@@ -176,9 +176,17 @@ var compile = function(schema, cache, root, reporter, opts) {
     if (valid !== 'true') {
       indent++
       validate('if (!(%s)) {', valid)
+      //jgo
+      if(type == "string"){
+        validate('var skipError; if(%s!==null &&typeof %s!=="undefined" && typeof %s!=="object"){%s = %s.toString();skipError=true;}if(!skipError){', name, name, name, name, name);
+      }
+      //fin jgo
       error('is the wrong type')
       //jgo
       if (filter) validate('delete %s;', name);
+      if(type == "string"){
+        validate('}');
+      }
       //fin jgo
       validate('} else {')
     }

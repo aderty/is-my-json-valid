@@ -180,6 +180,10 @@ var compile = function(schema, cache, root, reporter, opts) {
       if(type == "string"){
         validate('var skipError; if(%s!==null &&typeof %s!=="undefined" && typeof %s!=="object"){%s = %s.toString();skipError=true;}if(!skipError){', name, name, name, name, name);
       }
+      else if(type == "boolean"){
+        // 0 -> false ou 1 -> true
+        validate('var skipError; if(%s!==null &&typeof %s=="number"){%s = (%s === 1);skipError=true;}if(!skipError){', name, name, name, name, name);
+      }
       //fin jgo
       error('is the wrong type')
       //jgo

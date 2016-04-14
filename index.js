@@ -182,13 +182,13 @@ var compile = function(schema, cache, root, reporter, opts) {
       }
       else if(type == "boolean"){
         // 0 -> false ou 1 -> true
-        validate('var skipError; if(%s!==null &&typeof %s=="number"){%s = (%s === 1);skipError=true;}if(!skipError){', name, name, name, name, name);
+        validate('var skipError; if(%s!==null &&typeof %s==="number"){%s = (%s === 1);skipError=true;}if(!skipError){', name, name, name, name);
       }
       //fin jgo
       error('is the wrong type')
       //jgo
       if (filter) validate('delete %s;', name);
-      if(type == "string"){
+      if(type == "string" || type == "boolean"){
         validate('}');
       }
       //fin jgo
